@@ -25,7 +25,6 @@
 
 	function cerrarConexion($conexion) {
         // cerramos la conexion con PDO
-		$conexion = null;
 	}
 
 

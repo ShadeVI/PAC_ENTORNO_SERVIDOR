@@ -8,7 +8,6 @@
         $stmt = $conexion->prepare($sql);
         $stmt->execute([$correo, $nombre]);
         $resultado = $stmt->fetch();
-        cerrarConexion($conexion);
         if(esSuperadmin($nombre, $correo)){
             return "superadmin";
         } elseif (isset($resultado["enabled"]) && $resultado["enabled"] == 1){
@@ -22,14 +21,12 @@
 
 
 	function esSuperadmin($nombre, $correo){
-		// Completar...
         $conexion = crearConexion();
         $sql = "SELECT * FROM user 
-                JOIN setup ON superadmin_id = id AND user.email = ? AND user.full_name = ?; ";
+                JOIN setup ON superadmin_id = id WHERE user.email = ? AND user.full_name = ?; ";
         $stmt = $conexion->prepare($sql);
         $stmt->execute([$correo, $nombre]);
         $resultado = $stmt->fetch();
-        cerrarConexion($conexion);
         if(!isset($resultado["management"])){
             return false;
         }
@@ -38,18 +35,15 @@
 
 
 	function getPermisos() {
-		// Completar...
         $conexion = crearConexion();
         $sql = "SELECT management FROM setup;";
         $stmt = $conexion->query($sql);
         $resultado = $stmt->fetch();
-        cerrarConexion($conexion);
         return $resultado["management"];
 	}
 
 
 	function cambiarPermisos() {
-		// Completar...
         $conexion = crearConexion();
         if(getPermisos() == 1){
             $sql = "UPDATE setup SET management = 0;";
@@ -57,12 +51,10 @@
             $sql = "UPDATE setup SET management = 1;";
         }
         $conexion->exec($sql);
-        cerrarConexion($conexion);
 	}
 
 
 	function getCategorias() {
-		// Completar...
         $conexion = crearConexion();
         $sql = "SELECT * FROM category";
         $stmt = $conexion->query($sql);
@@ -71,7 +63,6 @@
 
 
 	function getListaUsuarios() {
-		// Completar...
         $conexion = crearConexion();
         $sql = "SELECT full_name, email, enabled FROM user";
         $stmt = $conexion->query($sql);
@@ -80,7 +71,6 @@
 
 
 	function getProducto($ID) {
-		// Completar...
         $conexion = crearConexion();
         $sql = "SELECT * FROM product WHERE id = :ID";
         $stmt = $conexion->prepare($sql);
@@ -90,7 +80,6 @@
 
 
 	function getProductos($orden) {
-		// Completar...
         $ordenValidos = ["id", "name", "cost", "price", "categoria"];
         if(in_array($orden, $ordenValidos)){
             $sql = "SELECT product.id, product.name, product.cost, product.price, c.name as categoria FROM product LEFT JOIN category AS c ON c.id = product.category_id ORDER BY ".$orden." ASC";
@@ -106,10 +95,9 @@
 
     function anadirProducto($nombre, $coste, $precio, $categoria) {
 		$conexion = crearConexion();
-
         $sql = "INSERT INTO product (name, cost, price, category_id) VALUES (?, ?, ?, ?)";
         $stmt = $conexion->prepare($sql);
-        // Paso los parametros con conversion a su valores segun la tabla product (exepto los decimals que se pasan como string)
+        // Paso los parametros con conversion a su valores segun la tabla product (excepto los decimals que se pasan como string)
         $stmt->bindParam(1, $nombre, PDO::PARAM_STR);
         $stmt->bindParam(2, $coste, PDO::PARAM_STR);
         $stmt->bindParam(3, $precio, PDO::PARAM_STR);
@@ -121,7 +109,6 @@
 
 	function borrarProducto($id) {
         $conexion = crearConexion();
-
         $sql = "DELETE FROM product WHERE id = ?";
         $stmt = $conexion->prepare($sql);
         $stmt->bindParam(1, $id, PDO::PARAM_INT);
@@ -132,11 +119,9 @@
 
 	function editarProducto($id, $nombre, $coste, $precio, $categoria) {
         $conexion = crearConexion();
-
         $sql = "UPDATE product SET name = ?, cost = ?, price = ?, category_id = ? WHERE id = ?";
         $stmt = $conexion->prepare($sql);
         // Paso los parametros con conversion a su valores segun la tabla product (exepto los decimals que se pasan como string)
-
         $stmt->bindParam(1, $nombre, PDO::PARAM_STR);
         $stmt->bindParam(2, $coste, PDO::PARAM_STR);
         $stmt->bindParam(3, $precio, PDO::PARAM_STR);
