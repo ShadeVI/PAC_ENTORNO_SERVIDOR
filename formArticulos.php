@@ -81,6 +81,6 @@
         }
     ?>
 
-    <a href="index.php">volver a index.php</a>
+    <a href="articulos.php">volver a articulos.php</a>
 </body>
 </html>
