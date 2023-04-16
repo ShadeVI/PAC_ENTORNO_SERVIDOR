@@ -43,11 +43,11 @@
         $productos = getProductos($orden);
         echo '<table>
         <tr>
-            <th><a href="/articulos.php?orden=id">ID</a></th>
-            <th><a href="/articulos.php?orden=name">Nombre</a></th>
-            <th><a href="/articulos.php?orden=cost">Coste</a></th>
-            <th><a href="/articulos.php?orden=price">Precio</a></th>
-            <th><a href="/articulos.php?orden=categoria">Categoria</a></th>
+            <th><a href="articulos.php?orden=id">ID</a></th>
+            <th><a href="articulos.php?orden=name">Nombre</a></th>
+            <th><a href="articulos.php?orden=cost">Coste</a></th>
+            <th><a href="articulos.php?orden=price">Precio</a></th>
+            <th><a href="articulos.php?orden=categoria">Categoria</a></th>
             <th>Acciones</th>
         </tr>';
         foreach ($productos as $producto) {
